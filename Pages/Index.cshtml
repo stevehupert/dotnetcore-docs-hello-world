@@ -4,6 +4,7 @@
     ViewData["Title"] = "Home page";
 }
 
+<script>
 import { AzureOpenAI } from "openai";
 import dotenv from "dotenv";
 
@@ -36,6 +37,7 @@ export async function main() {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
+</script>
 
 <div class="text-center">
     <h1 class="display-4">Steve EIF Chat App(NET 8)</h1>
