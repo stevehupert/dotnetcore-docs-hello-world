@@ -4,6 +4,39 @@
     ViewData["Title"] = "Home page";
 }
 
+import { AzureOpenAI } from "openai";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+export async function main() {
+  // You will need to set these environment variables or edit the following values
+  const endpoint = process.env["AZURE_OPENAI_ENDPOINT"] || "https://shupert-eif-poc-resource.openai.azure.com/";
+  const apiKey = process.env["AZURE_OPENAI_API_KEY"] || "<5LeHiiFvdDFARv4LdG0YFsmYB0a4zX3IK8crmMHMbRN2IUYl4CxmJQQJ99BFACHYHv6XJ3w3AAAAACOGrAaG>";
+  const apiVersion = "2025-01-01-preview";
+  const deployment = "gpt-4o-mini"; // This must match your deployment name
+
+  const client = new AzureOpenAI({ endpoint, apiKey, apiVersion, deployment });
+
+  const result = await client.chat.completions.create({
+    messages: [
+      { role: "system", content: "Model Instructions:\nObjective: The primary goal of this chat application is to assist the investment team in researching and investing in early-stage education technology companies.\nSources: The model should consider company information and investment guidance from the internet, as well as internal pitchbook data for companies being researched.\nResponse Format: The model should provide responses in a professional and informative tone, with clear and concise information. It should be able to answer questions, provide insights, and offer recommendations based on the available data.\nContext:\nThe investment team is focused on identifying promising early-stage education technology companies. The model will have access to both external sources (internet) and internal pitchbook data to gather relevant information. The team is looking for detailed analysis, market trends, and investment opportunities in the education technology sector. The model should be able to:\nProvide company profiles and key information.\nAnalyze market trends and industry insights.\nOffer investment recommendations based on the data.\nAnswer specific questions related to the companies and the education technology sector." }
+    ],
+    max_tokens: 800,
+      temperature: 1,
+      top_p: 1,
+      frequency_penalty: 0,
+      presence_penalty: 0,
+      stop: null
+  });
+
+  console.log(JSON.stringify(result, null, 2));
+}
+
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
+
 <div class="text-center">
     <h1 class="display-4">Steve EIF Chat App(NET 8)</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
